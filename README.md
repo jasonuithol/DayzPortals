@@ -6,6 +6,8 @@ touching one plate puts you at the other. In DayZ they're the **Pereval transit 
 For now the gate is kit-bashed from vanilla models; a proper model can replace it later
 without touching the logic. Targets DayZ 1.30 (stable since 2026-10). Server and client.
 
+**Version 0.1.** Download `@DayzPortals.zip` from the release, or build it yourself (below).
+
 ## Playing it
 
 1. **Crate it:** combine an *electronic repair kit* with *metal wire* in your hands. You get
@@ -30,6 +32,8 @@ crate: an empty unassembled gate loses nothing, an assembled one loses its parts
 
 - `DayzPortals/` - the mod (packed as-is into a PBO, no binarising).
   - `config.cpp` - `DZP_GateKit`, `DZP_GateHologram`, `DZP_Gate`.
+  - `Scripts/3_Game/DayzPortals/DZP_PPEShimmer.c` - the post-process requester for the
+    air shimmer.
   - `Scripts/4_World/DayzPortals/`
     - `DZP_Layout.c` - where every vanilla piece sits relative to the cabinet, the trigger
       box, the arrival point, the channels and the material counts. **Tune the look here.**
@@ -39,6 +43,8 @@ crate: an empty unassembled gate loses nothing, an assembled one loses its parts
     - `DZP_GateRegistry.c` - server: watches the plates (every 250 ms), runs the
       contraband check and the jump.
     - `DZP_GateKit.c` - the crate, and the placement hologram.
+    - `DZP_GateShimmer.c` - client: near an assembled gate the view wobbles round the
+      grille, stronger the closer you are. **Tune its strength here.**
     - `DZP_Actions.c`, `DZP_Hooks.c` - tune/assemble/crate actions, the recipe, and the
       vanilla hooks (`ActionConstructor`, `PluginRecipesManagerBase`, `Hammer`, `PlayerBase`).
 - `ServerFiles/types.xml` - CE entries. Without them the gates don't persist. Register the
