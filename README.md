@@ -47,14 +47,27 @@ crate: an empty unassembled gate loses nothing, an assembled one loses its parts
       grille, stronger the closer you are. **Tune its strength here.**
     - `DZP_Actions.c`, `DZP_Hooks.c` - tune/assemble/crate actions, the recipe, and the
       vanilla hooks (`ActionConstructor`, `PluginRecipesManagerBase`, `Hammer`, `PlayerBase`).
+- `mission/portals.chernarusplus/` - the test mission (`init.c` has the headless checks and
+  the `-tour` camera walk).
 - `ServerFiles/types.xml` - CE entries. Without them the gates don't persist. Register the
   file in the mission's `cfgeconomycore.xml` with a `<ce folder="...">` block.
 
 ## Building and testing
 
-The build and test tooling lives in `~/Projects/DayZMissions`. `mods/DayzPortals` there is
-a symlink to this project's `DayzPortals/`, and the `portals.chernarusplus` mission loads it
-as a `local` mod:
+The build and test tooling lives in
+[DayZMissions](https://github.com/jasonuithol/DayZMissions), cloned next to this repo. The test
+mission is here, in `mission/portals.chernarusplus`. Link both into DayZMissions; the links are
+local only, not part of that repo:
+
+```bash
+cd ~/Projects/DayZMissions
+ln -s ../../DayzPortals/DayzPortals mods/DayzPortals
+ln -s ../../DayzPortals/mission/portals.chernarusplus missions/portals.chernarusplus
+```
+
+The mission loads the mod as a `local` mod. It puts an assembled pair of gates on 412.0 MHz,
+one at Balota airfield where you spawn and one at the NW airfield. Next to you are two crated
+gates with the parts and a hammer, and an AKM with a loaded magazine to try the interlock.
 
 ```bash
 cd ~/Projects/DayZMissions
