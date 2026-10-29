@@ -32,10 +32,12 @@ class DZP_Layout
 	static const int PLATES_NEEDED = 10;
 	static const int WIRE_NEEDED = 1;
 
-	// Built: the hatch ring standing between two equipment racks, a mast and a transformer
-	// behind, a cable drum beside the cabinet.
+	// Built: the hatch ring (a wire grille) on a Livonia bunker blast-door leaf, standing
+	// between two equipment racks, a mast and a transformer behind, a cable drum beside the
+	// cabinet.
 	static void Built(array<ref DZP_DecorPart> parts)
 	{
+		parts.Insert(new DZP_DecorPart("StaticObj_Underground_Corridor_Main_Gate_L", Vector(RING[0], 0, RING[2] - 0.3), "0 0 0", 1));
 		parts.Insert(new DZP_DecorPart("StaticObj_Misc_ConcretePipe_Gate", RING, "0 0 0", RING_SCALE));
 		parts.Insert(new DZP_DecorPart("StaticObj_Furniture_radar_rack_quad", Vector(RING[0] - 1.9, 0, -0.4), "90 0 0", 1));
 		parts.Insert(new DZP_DecorPart("StaticObj_Furniture_radar_rack_quad", Vector(RING[0] + 1.9, 0, 0.4), "-90 0 0", 1));
@@ -44,10 +46,10 @@ class DZP_Layout
 		parts.Insert(new DZP_DecorPart("StaticObj_Misc_Coil", "-2.4 1.1 -1.2", "0 0 0", 1));
 	}
 
-	// Placed but not assembled: the ring lies flat in front of the cabinet.
+	// Placed but not assembled: the blast door lies flat beside the cabinet.
 	static void Unbuilt(array<ref DZP_DecorPart> parts)
 	{
-		parts.Insert(new DZP_DecorPart("StaticObj_Misc_ConcretePipe_Gate", Vector(RING[0], 0.1, 1.8), "0 90 0", RING_SCALE));
+		parts.Insert(new DZP_DecorPart("StaticObj_Underground_Corridor_Main_Gate_L", Vector(RING[0], 0.2, 0.5), "0 -90 0", 1));
 	}
 
 	static string FrequencyText(int channel)
