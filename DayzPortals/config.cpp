@@ -16,10 +16,15 @@ class CfgMods
 		dir = "DayzPortals";
 		name = "DayzPortals";
 		type = "mod";
-		dependencies[] = {"World"};
+		dependencies[] = {"Game", "World"};
 
 		class defs
 		{
+			class gameScriptModule
+			{
+				value = "";
+				files[] = {"DayzPortals/Scripts/3_Game"};
+			};
 			class worldScriptModule
 			{
 				value = "";

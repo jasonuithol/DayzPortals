@@ -17,6 +17,7 @@ class DZP_Gate extends ItemBase
 
 	// client only
 	protected Particle m_DZP_Mist;
+	protected ref array<Particle> m_DZP_Vapour = new array<Particle>();
 	protected EffectSound m_DZP_Hum;
 
 	void DZP_Gate()
@@ -32,6 +33,8 @@ class DZP_Gate extends ItemBase
 		super.EEInit();
 		if (GetGame().IsServer())
 			DZP_GateRegistry.Get().Register(this);
+		if (!GetGame().IsDedicatedServer())
+			DZP_GateShimmer.Register(this);
 		// the kit sets position and orientation right after creating us
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(DZP_RefreshDecor, 200, false);
 	}
@@ -41,6 +44,8 @@ class DZP_Gate extends ItemBase
 		super.EEDelete(parent);
 		if (GetGame().IsServer())
 			DZP_GateRegistry.Get().Unregister(this);
+		if (!GetGame().IsDedicatedServer())
+			DZP_GateShimmer.Unregister(this);
 		m_DZP_Decor.Clear();
 		DZP_StopAmbience();
 	}
@@ -270,6 +275,22 @@ class DZP_Gate extends ItemBase
 	{
 		if (!m_DZP_Mist)
 			m_DZP_Mist = ParticleManager.GetInstance().PlayInWorld(ParticleList.CONTAMINATED_AREA_GAS_TINY, DZP_RingCentre());
+		// faint vapour rising off the lower half of the grille, both faces
+		if (m_DZP_Vapour.Count() == 0)
+		{
+			float radius = 1.0 * DZP_Layout.RING_SCALE;
+			for (int i = 0; i < 7; i++)
+			{
+				float angle = Math.PI + Math.PI * (i + 0.5) / 7;
+				float face = 0.15;
+				if (i % 2 == 1)
+					face = -0.15;
+				vector at = DZP_Layout.RING + Vector(Math.Cos(angle) * radius, Math.Sin(angle) * radius, face);
+				Particle p = ParticleManager.GetInstance().PlayInWorld(ParticleList.ITEM_HOT_VAPOR, ModelToWorld(at));
+				if (p)
+					m_DZP_Vapour.Insert(p);
+			}
+		}
 		if (!m_DZP_Hum)
 			m_DZP_Hum = SEffectManager.PlaySoundOnObject("Bunker_Lamp_Hum_SoundSet", this, 1, 1, true);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(DZP_Spark);
@@ -285,6 +306,12 @@ class DZP_Gate extends ItemBase
 			m_DZP_Mist.StopParticle();
 			m_DZP_Mist = null;
 		}
+		for (int i = 0; i < m_DZP_Vapour.Count(); i++)
+		{
+			if (m_DZP_Vapour[i])
+				m_DZP_Vapour[i].StopParticle();
+		}
+		m_DZP_Vapour.Clear();
 		if (m_DZP_Hum)
 		{
 			m_DZP_Hum.SoundStop();
