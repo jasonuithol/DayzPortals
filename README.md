@@ -65,11 +65,11 @@ tools/run_client.sh portals    #   linked to one at the NW airfield, with kits a
 
 The headless test covers the logic. These need a client:
 
-- How the kit-bash actually looks. The vanilla pieces were placed from their measured
-  bounding boxes, not by eye, and the cabinet's front may face the wrong way. Fix it in
-  `DZP_Layout.c`.
+- The look has been checked from the front and side (`screenshots/`), with
+  `tools/run_server.sh portals -tour=1`: the server walks the player round the gate every
+  12 s. Still unseen: the unbuilt gate (blast door lying flat), and the hologram.
 - The placement hologram, the attachment slots in the inventory screen and the action texts.
-- The mist, the sparks and the sounds (all vanilla: contaminated-area gas, lever sparks,
+- The mist, the sparks and the sounds (only a faint puff and sparks were visible) (all vanilla: contaminated-area gas, lever sparks,
   bunker hum, defibrillator).
 - The jump on a real client. Server-side `SetPosition` is what admin tools use, so it
   should be fine.
